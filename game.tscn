@@ -1,0 +1,67 @@
+[gd_scene load_steps=9 format=3 uid="uid://nqtve6xa1gm7"]
+
+[ext_resource type="Script" path="res://game.gd" id="1_b65pg"]
+[ext_resource type="Script" path="res://bird.gd" id="1_yp34v"]
+[ext_resource type="Texture2D" uid="uid://cwqwmnk4nvw8c" path="res://assets/sprites/bird_0.jpg" id="2_davhj"]
+[ext_resource type="PackedScene" uid="uid://dremjypmxfnvt" path="res://pipe.tscn" id="3_gcyea"]
+[ext_resource type="Texture2D" uid="uid://1v6q8x27ki2y" path="res://assets/sprites/background.png" id="5_pi0xt"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_8gs2w"]
+font_size = 50
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_n02bn"]
+size = Vector2(68, 50)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1otsp"]
+size = Vector2(1680, 93)
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_b65pg")
+
+[node name="Score" type="CanvasLayer" parent="."]
+offset = Vector2(840, 0)
+transform = Transform2D(1, 0, 0, 1, 840, 0)
+
+[node name="Label" type="Label" parent="Score"]
+anchors_preset = -1
+anchor_left = -0.021
+anchor_right = 0.033
+anchor_bottom = 0.066
+offset_left = 0.280003
+offset_right = 0.560001
+offset_bottom = -0.300003
+text = "0
+"
+label_settings = SubResource("LabelSettings_8gs2w")
+
+[node name="Parallax2D" type="Parallax2D" parent="."]
+repeat_size = Vector2(1680, 0)
+ignore_camera_scroll = true
+
+[node name="Sprite2D" type="Sprite2D" parent="Parallax2D"]
+position = Vector2(818, 303)
+scale = Vector2(1.73196, 2.04688)
+texture = ExtResource("5_pi0xt")
+
+[node name="pipe1" parent="." instance=ExtResource("3_gcyea")]
+
+[node name="pipe2" parent="." instance=ExtResource("3_gcyea")]
+
+[node name="pipe3" parent="." instance=ExtResource("3_gcyea")]
+
+[node name="bird" type="CharacterBody2D" parent="."]
+script = ExtResource("1_yp34v")
+
+[node name="Sprite2D" type="Sprite2D" parent="bird"]
+scale = Vector2(0.424333, 0.424333)
+texture = ExtResource("2_davhj")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="bird"]
+position = Vector2(-2, 9.53674e-07)
+shape = SubResource("RectangleShape2D_n02bn")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(840, 1003.5)
+shape = SubResource("RectangleShape2D_1otsp")

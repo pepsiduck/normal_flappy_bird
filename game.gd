@@ -1,6 +1,29 @@
 extends Node2D
 
 var score = 0
+var mlg = 0
+
+func _mlg_0() -> void:
+	$bird/Sprite2D.texture = load("res://assets/sprites/bird_1.png")
+	
+func _mlg_1() -> void:
+	$bird/Sprite2D.texture = load("res://assets/sprites/bird_2.png")
+	
+func _mlg_2() -> void:
+	$bird/Sprite2D.texture = load("res://assets/sprites/bird_3.png")
+	
+func _mlg_3() -> void:
+	$bird.has_gun = true
+	$bird/gun_sprite.visible = true
+
+var mlg_thresholds = [1, 2, 3, 5]
+
+var mlg_funcs = [
+	Callable(self, "_mlg_0"),
+	Callable(self, "_mlg_1"),
+	Callable(self, "_mlg_2"),
+	Callable(self, "_mlg_3")
+]
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -18,10 +41,22 @@ func _process(delta: float) -> void:
 		$pipe3.moving = false
 	else :
 		$Parallax2D.scroll_offset.x -= 180*delta
+		
+	if($bird.has_gun):
+		if($hitmark.visible and not $hitmark/sound.is_playing()):
+			$hitmark.visible = false
 
 func score_plus_1() -> void:
 	score += 1
 	$Score/Label.text = str(score)
+	
+	if(len(mlg_thresholds) != 0):
+		if(score >= mlg_thresholds[0]):
+			mlg += 1
+			mlg_thresholds.pop_front()
+			
+			mlg_funcs[0].call()
+			mlg_funcs.pop_front()
 
 func _unhandled_input(event):
 	if event is InputEventKey:
@@ -30,3 +65,7 @@ func _unhandled_input(event):
 				get_tree().quit()
 			elif (not $bird.alive and $bird.is_on_floor() and Input.is_action_just_pressed("ui_accept")) :
 				get_tree().reload_current_scene()
+	elif event is InputEventMouseButton and $bird.alive and $bird.has_gun:
+		$hitmark.visible = true
+		$hitmark.position = event.position
+		$hitmark/sound.play()

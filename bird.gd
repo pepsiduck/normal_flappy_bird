@@ -19,6 +19,7 @@ func _physics_process(delta: float) -> void:
 	# Handle jump.
 	if Input.is_action_just_pressed("ui_accept") and alive:
 		velocity.y = JUMP_VELOCITY
+		$JumpSound.play()
 		
 	if not is_on_floor():
 		rotation = min(-0.2 * PI * velocity.y / JUMP_VELOCITY, 0.3 * PI )

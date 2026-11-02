@@ -1,10 +1,11 @@
-[gd_scene load_steps=9 format=3 uid="uid://nqtve6xa1gm7"]
+[gd_scene load_steps=10 format=3 uid="uid://nqtve6xa1gm7"]
 
 [ext_resource type="Script" path="res://game.gd" id="1_b65pg"]
 [ext_resource type="Script" path="res://bird.gd" id="1_yp34v"]
 [ext_resource type="Texture2D" uid="uid://cwqwmnk4nvw8c" path="res://assets/sprites/bird_0.jpg" id="2_davhj"]
 [ext_resource type="PackedScene" uid="uid://dremjypmxfnvt" path="res://pipe.tscn" id="3_gcyea"]
 [ext_resource type="Texture2D" uid="uid://1v6q8x27ki2y" path="res://assets/sprites/background.png" id="5_pi0xt"]
+[ext_resource type="AudioStream" uid="uid://0mbx68oj35lt" path="res://assets/sfx/jump_0.mp3" id="6_yuaxf"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_8gs2w"]
 font_size = 50
@@ -59,6 +60,9 @@ texture = ExtResource("2_davhj")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="bird"]
 position = Vector2(-2, 9.53674e-07)
 shape = SubResource("RectangleShape2D_n02bn")
+
+[node name="JumpSound" type="AudioStreamPlayer2D" parent="bird"]
+stream = ExtResource("6_yuaxf")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 

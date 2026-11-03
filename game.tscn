@@ -86,3 +86,5 @@ texture = ExtResource("8_0gkto")
 
 [node name="sound" type="AudioStreamPlayer2D" parent="hitmark"]
 stream = ExtResource("9_upnns")
+
+[node name="illuminatis" type="Node2D" parent="."]

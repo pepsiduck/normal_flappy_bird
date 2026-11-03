@@ -1,5 +1,7 @@
 extends Node2D
 
+var illuminati = preload("res://illuminati.tscn")
+
 var score = 0
 var mlg = 0
 
@@ -45,6 +47,15 @@ func _process(delta: float) -> void:
 	if($bird.has_gun):
 		if($hitmark.visible and not $hitmark/sound.is_playing()):
 			$hitmark.visible = false
+		
+		
+	for ill in $illuminatis.get_children():
+		if($bird.alive):
+			ill.position += ill.speed * delta * ($bird.position - ill.position).normalized()
+		if(not ill.alive):
+			score += 1 if not ill.shiny else 2
+			$Score/Label.text = str(score)
+			ill.queue_free()
 
 func score_plus_1() -> void:
 	score += 1
@@ -57,6 +68,11 @@ func score_plus_1() -> void:
 			
 			mlg_funcs[0].call()
 			mlg_funcs.pop_front()
+			
+	if(score >= 6):
+		var limit = (randi() % 3) + 1
+		for i in range(0, limit):
+			$illuminatis.add_child(illuminati.instantiate())
 
 func _unhandled_input(event):
 	if event is InputEventKey:
@@ -65,6 +81,7 @@ func _unhandled_input(event):
 				get_tree().quit()
 			elif (not $bird.alive and $bird.is_on_floor() and Input.is_action_just_pressed("ui_accept")) :
 				get_tree().reload_current_scene()
+				
 	elif event is InputEventMouseButton and $bird.alive and $bird.has_gun:
 		$hitmark.visible = true
 		$hitmark.position = event.position

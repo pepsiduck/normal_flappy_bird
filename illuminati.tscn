@@ -1,0 +1,31 @@
+[gd_scene load_steps=6 format=3 uid="uid://dnm11u7fco812"]
+
+[ext_resource type="Script" path="res://illuminati.gd" id="1_1bnng"]
+[ext_resource type="Texture2D" uid="uid://bxwmpiocqlmj1" path="res://assets/sprites/illuminati.png" id="1_k84hb"]
+[ext_resource type="Shader" path="res://illuminati.gdshader" id="3_aeoxg"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_mth4u"]
+shader = ExtResource("3_aeoxg")
+shader_parameter/speed = 0.5
+shader_parameter/frequency = 3.0
+shader_parameter/intensity = 1.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_w4pvi"]
+radius = 440.454
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_1bnng")
+
+[node name="Area2D" type="Area2D" parent="."]
+scale = Vector2(0.15, 0.15)
+
+[node name="Sprite2D" type="Sprite2D" parent="Area2D"]
+material = SubResource("ShaderMaterial_mth4u")
+texture = ExtResource("1_k84hb")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(6.66667, 120)
+shape = SubResource("CircleShape2D_w4pvi")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="input_event" from="Area2D" to="." method="_on_area_2d_input_event"]

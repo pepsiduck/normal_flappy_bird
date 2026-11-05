@@ -53,7 +53,7 @@ func _process(delta: float) -> void:
 		if($bird.alive):
 			ill.position += ill.speed * delta * ($bird.position - ill.position).normalized()
 		if(not ill.alive):
-			score += 1 if not ill.shiny else 2
+			score += 1 if not ill.shiny else 2           
 			$Score/Label.text = str(score)
 			ill.queue_free()
 

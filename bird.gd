@@ -4,11 +4,39 @@ const JUMP_VELOCITY = -500.0
 var alive = true
 var has_gun = false
 
+var hp = 2
+
+var time_i_frame = 0.0
+var iframe_en = false
+var ifcount = 0
+
+func _process(delta: float) -> void:
+	if(iframe_en):
+		
+		time_i_frame += delta
+		ifcount += 1
+		
+		if(ifcount == 10):
+			
+			ifcount = 0
+			$Sprite2D.visible = not $Sprite2D.visible
+		
+		if(time_i_frame > 1.0) :
+			iframe_en = false
+			ifcount = 0
+			$Sprite2D.visible = true
+
 func _ready() -> void:
 	position = get_viewport_rect().size / 2
 
 func _kill() -> void:
-	alive = false
+	if(not iframe_en):
+		hp -= 1
+		time_i_frame = 0.0
+		iframe_en = true
+		if(hp <= 0):
+			alive = false
+			iframe_en = false
 
 func _physics_process(delta: float) -> void:
 	# Add the gravity.
